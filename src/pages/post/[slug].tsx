@@ -34,7 +34,7 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
-  const postContent = post.data.content.map(group => {
+  const postContent = post?.data.content.map(group => {
     return {
       heading: group.heading,
       body: RichText.asText(group.body),
