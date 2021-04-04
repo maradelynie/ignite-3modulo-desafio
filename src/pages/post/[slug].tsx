@@ -42,7 +42,7 @@ export default function Post({ post }: PostProps): JSX.Element {
   });
 
   const wordCount = postContent
-    .reduce((acc, item) => {
+    ?.reduce((acc, item) => {
       const text = item.heading + ' ' + item.body;
       return text + ' ' + acc;
     }, '')
