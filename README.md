@@ -1,6 +1,6 @@
 # spacetravelling
 
-[![](https://github.com/maradelynie/instant/blob/master/video.png)](https://youtu.be/njfO-ekmdXk)
+[![](https://github.com/maradelynie/ignite-3modulo-desafio/blob/master/video.png)](https://youtu.be/njfO-ekmdXk)
 
 My first Next.Js project, it was a half day code session for the challenge on Ignite by Rocketseat.
 A blog that use static pages generations, using Prismic API integrations.
