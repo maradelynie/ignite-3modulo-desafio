@@ -1,1 +1,21 @@
-// TODO
+.postInfo {
+  color: var(--gray-300);
+  font-size: 1rem;
+  display: flex;
+  gap: 2rem;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  svg {
+    font-size: 1.5rem;
+    transition: 0.2s;
+  }
+}
+.pageContainer {
+  max-width: 700px;
+  margin: 0 auto;
+}

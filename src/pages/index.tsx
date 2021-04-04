@@ -1,13 +1,14 @@
 import Prismic from '@prismicio/client';
 import ApiSearchResponse from '@prismicio/client/types/ApiSearchResponse';
 import ptBR from 'date-fns/locale/pt-BR';
+import Head from 'next/head';
+import Link from 'next/link';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import { format } from 'date-fns';
 import { useState } from 'react';
 import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
-
-import { Header } from '../components/Header';
+import Header from '../components/Header';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
@@ -38,11 +39,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     const newPostsData: Post[] = data.results.map(post => {
       return {
         uid: post.uid,
-        first_publication_date: format(
-          new Date(post.first_publication_date),
-          'dd MMM yyyy',
-          { locale: ptBR }
-        ),
+        first_publication_date: post.first_publication_date,
         data: {
           title: post.data.title,
           subtitle: post.data.subtitle,
@@ -67,32 +64,49 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
         console.error('Failed retrieving information', err);
       });
   }
-
   return (
     <>
+      <Head>
+        <title>Home | spacetraveling</title>
+      </Head>
       <Header />
-      <main className={styles.postsContainer}>
+      <main className={commonStyles.pageContainer}>
         <ul>
-          {posts?.results?.map(post => {
+          {posts?.results.map(post => {
             return (
-              <li key={post.uid}>
-                <h1>{post.data.title}</h1>
-                <h3>{post.data.subtitle}</h3>
-                <div className={styles.postInfo}>
-                  <div>
-                    <FiCalendar /> <time>{post.first_publication_date}</time>
-                  </div>
-                  <div>
-                    <FiUser /> <span>{post.data.author}</span>
-                  </div>
-                </div>
-              </li>
+              <Link key={post.uid} href={`/post/${post.uid}`}>
+                <a className={styles.postsList}>
+                  <li>
+                    <h1>{post.data.title}</h1>
+                    <h3>{post.data.subtitle}</h3>
+                    <section className={commonStyles.postInfo}>
+                      <div>
+                        <FiCalendar />
+                        <time>
+                          {format(
+                            new Date(post.first_publication_date),
+                            'dd MMM yyyy',
+                            { locale: ptBR }
+                          )}
+                        </time>
+                      </div>
+                      <div>
+                        <FiUser /> <span>{post.data.author}</span>
+                      </div>
+                    </section>
+                  </li>
+                </a>
+              </Link>
             );
           })}
         </ul>
         {posts?.next_page ? (
-          <button onClick={getMorePosts} type="button">
-            Load More...
+          <button
+            onClick={getMorePosts}
+            type="button"
+            className={styles.readMoreButton}
+          >
+            Carregar mais posts
           </button>
         ) : (
           <></>
@@ -122,11 +136,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = response.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: format(
-        new Date(post.first_publication_date),
-        'dd MMM yyyy',
-        { locale: ptBR }
-      ),
+      first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
@@ -142,5 +152,6 @@ export const getStaticProps: GetStaticProps = async () => {
         results: posts,
       },
     },
+    revalidate: 60 * 60 * 24,
   };
 };
