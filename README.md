@@ -15,7 +15,7 @@ First of all you will need NodeJs, a browser that can run V8 engine like Chrome 
 
 For to connect this template in a Prismic blog you will need to get the endpoint of your account.
 
-[Create you account](https://prismic.io/)
+[Create your account](https://prismic.io/)
 
 With a project setted, got to project dashboard > settings > api & security.
 The first info will be yout endpoint, save it for later.
